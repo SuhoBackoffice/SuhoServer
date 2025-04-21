@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: suhoDb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${MYSQL_TIME_ZONE}
+      EXPORTER_NAME: ${EXPORTER_NAME}
+      EXPORTER_PASSWORD: ${EXPORTER_PASSWORD}
+    ports:
+      - ${MYSQL_OUT_PORT}:${MYSQL_IN_PORT}
+    networks:
+      - suho-network
+    volumes:
+      - ./mysql/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - ./mysql/my.cnf:/etc/my.cnf
+      - ${MYSQL_QUERY_LOG_PATH}:/var/log/mysql
+      - suho-rdb-data:/var/lib/mysql
+
+networks:
+  suho-network:
+    name: suho-network
+    driver: bridge
+
+volumes:
+  suho-rdb-data:
+  redis_data:

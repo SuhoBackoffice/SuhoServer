@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: SuhoServer
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:classpath:config/${spring.profiles.active}/application-${spring.profiles.active}_db.yml
+      - optional:classpath:config/${spring.profiles.active}/application-${spring.profiles.active}_server.yml
+      - optional:classpath:config/${spring.profiles.active}/application-${spring.profiles.active}_auth.yml
+  profiles:
+    group:
+      dev: [ "dev_auth", "dev_db", "dev_server" ]
+      prod: [ "prod_auth", "prod_db", "prod_server" ]
+    active: dev
